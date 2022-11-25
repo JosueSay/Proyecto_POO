@@ -271,19 +271,36 @@ public class Operaciones {
 	}
 
 	/**
-	 * 
-	 * */
-	public void menu() {
-		
-		
-			
-		
-		
-		
+	 * metodo que muestra el menu de las funciones que puede realizar el cliente
+	 */
+	public void menuCliente() {
+
+		// un cliente puede hacer
+		// publicar trabajo
+		// ver trabajos publicados
+		// ver (estado) trabajos aceptados
+		// negociar/elegir trabajador
+		// calificar trabajo
+		// pagar
+		// cancelar trabajo
+		// ver trabajador
+		// cerrar cuenta
+		//
+
 	}
-	
-	
-	
+
+	/**
+	 * metodo que muestra el menu de las funciones que puede realizar el trabajador
+	 */
+	public void menuTrabajador() {
+
+
+		// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
+		// debe de ver los trabajos publicados por clientes
+		// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
+		// debe de poder calificar cliente
+	}
+
 	/**
 	 * metodo que sirve para pedir el tipo de instancia que tiene el usuario 1:
 	 * cliente, 2: trabajador
