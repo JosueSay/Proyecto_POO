@@ -120,6 +120,10 @@ public class Operaciones {
 
 	/**
 	 * metodo para iniciar sesion segun el ingreso de datos
+	 * 
+	 * @return continuarI, variable que permite identificar si hay que mostrar el
+	 *         menu inicial nuevamente true: repetir el menu false: no repetir el
+	 *         menu
 	 */
 	public boolean iniciarSesionUsuario() {
 
@@ -136,7 +140,8 @@ public class Operaciones {
 		System.out.print("\nIngresa tu usename: ");
 		usern = r.next();
 		System.out.print("Ingresa tu password: ");
-		pass = r.next();
+		pass = r.nextLine();
+		pass = r.nextLine();
 
 		tipoU = validarTipoUsuario();
 
@@ -147,10 +152,17 @@ public class Operaciones {
 		if (us != null) {
 
 			System.out.println("");
-			System.out.println("Bienvenido " + us.getNombre());
 
-			// realizar if para la instancia y mostrar sus menus
+			// mostrar los menus de cada usuario segun su instancia
+			if (us instanceof Cliente) {
+				Cliente cliente = (Cliente) (us);
+				menuCliente(cliente);
+			} else {
 
+				Trabajador trabajador = (Trabajador) (us);
+				menuTrabajador(trabajador);
+			}
+			// no mostrar el menu incial nuevamente
 			continuarI = false;
 
 			// si no existe avisar
@@ -167,6 +179,12 @@ public class Operaciones {
 	/**
 	 * metodo que retorna el usuario buscado segun su username y password para
 	 * iniciar sesion
+	 * 
+	 * @param username,    nombre de usuario para el inicio de sesion
+	 * @param password,    contraseña del usuario para el inicio de sesion
+	 * @param tipoUsuario, tipo de usuario 1. Cliente 2. Trabajador
+	 * @return us, retornar el usuario que coincide con la contraseña y nombre de
+	 *         usuario segun su tipo de usuario
 	 */
 	public Usuario dameUsuario(String username, String password, int tipoUsuario) {
 
@@ -206,6 +224,11 @@ public class Operaciones {
 
 	/**
 	 * metodo para buscar un usuario por su username y password
+	 * 
+	 * @param listaU,   lista de usuarios segun su tipo (Cliente o Trabajador)
+	 * @param username, nombre de usuario para el inicio de sesion
+	 * @param password, contraseña del usuario para el inicio de sesion
+	 * @return usTemporal, usuario que coincide con el username y password ingresado
 	 */
 	public Usuario encontrarUsuario(ArrayList<Usuario> listaU, String username, String password) {
 
@@ -242,15 +265,16 @@ public class Operaciones {
 
 		System.out.print("\nIngresa tu nombre: ");
 		nombre = r.next();
-		System.out.print("");
 		System.out.print("Ingresa tu apellido: ");
 		apellido = r.next();
 		System.out.print("Ingresa tu direccion: ");
-		direccion = r.next();
+		direccion = r.nextLine();
+		direccion = r.nextLine();
 		System.out.print("Ingresa tu username: ");
-		user = r.next();
+		user = r.nextLine();
 		System.out.print("Ingresa tu password: ");
-		pass = r.next();
+		pass = r.nextLine();
+
 		tipoU = validarTipoUsuario();
 
 		// crear un usuario y presentar sus funciones con su menu
@@ -268,37 +292,6 @@ public class Operaciones {
 			// realizar if para la instancia y mostrar sus menus
 
 		}
-	}
-
-	/**
-	 * metodo que muestra el menu de las funciones que puede realizar el cliente
-	 */
-	public void menuCliente() {
-
-		// un cliente puede hacer
-		// publicar trabajo
-		// ver trabajos publicados
-		// ver (estado) trabajos aceptados
-		// negociar/elegir trabajador
-		// calificar trabajo
-		// pagar
-		// cancelar trabajo
-		// ver trabajador
-		// cerrar cuenta
-		//
-
-	}
-
-	/**
-	 * metodo que muestra el menu de las funciones que puede realizar el trabajador
-	 */
-	public void menuTrabajador() {
-
-
-		// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
-		// debe de ver los trabajos publicados por clientes
-		// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
-		// debe de poder calificar cliente
 	}
 
 	/**
@@ -349,6 +342,227 @@ public class Operaciones {
 		} while (banderaT);
 
 		return tipoT;
+	}
+
+	/**
+	 * metodo que muestra el menu de las funciones que puede realizar el cliente
+	 * 
+	 * @param cliente, cliente que inicia sesion
+	 */
+	public void menuCliente(Cliente cliente) {
+
+		// variable para el ingreso de la opcion del usuario
+		int respuesta_int;
+		// variable para continuar el ciclo para mostrar menu
+		boolean continuarC;
+
+		System.out.println("======================================");
+		System.out.println("	||Bienvenido " + cliente.getNombre() + "||");
+		System.out.println("======================================");
+
+		// mostrar menu
+		do {
+			// evaluando errores
+			try {
+
+				System.out.println(
+						"\n1. Publicar Trabajo\n2. Ver estado de los trabajos\n3. Ver Trabajos publicados\n4. Ver trabajos con propuestas\n5. Ver trabajos finalizados\n6. Cerrar cuenta\n7. Salir");
+				System.out.print("\nIngresa la opcion que desee: ");
+				respuesta_int = r.nextInt();
+
+				// se realiza la opcion que se ingreso
+				switch (respuesta_int) {
+
+				// primera opcion: publicar trabajo
+				case 1:
+					continuarC = true;
+					publicarTrabajo(cliente);
+					break;
+
+				// segunda opcion: ver el estado de los trabajos
+				case 2:
+					continuarC = true;
+					verEstadoTrabajo(cliente);
+					break;
+
+				// tercera opcion: ver Trabajos publicados
+				case 3:
+					continuarC = true;
+					verTrabajosPublicados(cliente);
+					System.out.println("");
+					break;
+
+				// cuarta opcion: ver trabajos con propuestas
+				case 4:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// quinta opcion: ver trabajos finalizados
+				case 5:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// sexta opcion: cerrar cuenta
+				case 6:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// septima opcion: salir del programa
+				case 7:
+					continuarC = false;
+					System.out.println("======================================");
+					System.out.println("       ||Saliste del programa||       ");
+					System.out.println("======================================");
+					System.out.println("");
+					break;
+
+				// no se ingreso los enteros permitidos para las opciones
+				default:
+					System.out.println("La respuesta " + "\"" + respuesta_int + "\""
+							+ " no esta dentro de las opciones permitidas. Intenta nuevamente");
+					continuarC = true;
+				}
+
+				// el usuario ingreso un dato diferente de int
+			} catch (InputMismatchException e) {
+				System.out.println(
+						"La opcion ingresada no es valida, debe ingresar un numero entero. Intenta nuevamente");
+				r.next();
+				continuarC = true;
+			}
+
+		} while (continuarC);
+
+		// opcion 5
+		System.out.println("1. Ver propuestas de trabajadores\2. Cancelar trabajo\n3. Regresar");
+
+		// opcion 3
+		System.out.println("1. Cancelar trabajo\n2. Modificar trabajo\n3. Regresar");
+
+		// opcion 5
+		// colcoar primero los trabajos por pago
+		System.out.println("1. Pagar trabajador\n2. Regresar");
+
+	}
+
+	/**
+	 * metodo que permite publicar un trabajo
+	 * 
+	 * @param cl, cliente que realiza la publicacion de un trabajo
+	 */
+	public void publicarTrabajo(Cliente cl) {
+
+		// variables para la publicacion de un trabajo
+		String descripcion;
+		String fechaInicio;
+		String fechaFinal;
+		float precio = 0;
+		String estado = "espera";
+		// variable que permite identificar si hay mal ingreso de datos
+		// true: hay mal ingreso de datos, false: no hay mal ingreso de datos
+		boolean banderaP;
+
+		// ingreso de datos
+		System.out.print("Ingresa la descripcion del trabajo: ");
+		descripcion = r.nextLine();
+		descripcion = r.nextLine();
+
+		System.out.print("Ingresa la fecha en que se iniciara el trabajo (en el formato dia/mes/año): ");
+		fechaInicio = r.next();
+
+		System.out.print("Ingresa la fecha en que se finalizara el trabajo (en el formato dia/mes/año): ");
+		fechaFinal = r.next();
+
+		// ingreso adecuado para el precio del trabajo
+		do {
+			try {
+				System.out.print("Ingresa el precio del trabajo: ");
+				precio = r.nextFloat();
+				banderaP = false;
+			} catch (InputMismatchException e) {
+				System.out.println("La opcion ingresada no es valida, debe ingresar un numero entero o decimal");
+				System.out.println("");
+				r.nextLine();
+				banderaP = true;
+			}
+
+		} while (banderaP);
+
+		// crear trabajo
+		Trabajo trabajo = new Trabajo(descripcion, fechaInicio, fechaFinal, precio, estado);
+
+		// añadir el trabajo a los trabajos publicados y a trabajos generales de cliente
+		ArrayList<Trabajo> trabajoT = cl.getTrabajosPublicados();
+		trabajoT.add(trabajo);
+		cl.setTrabajosPublicados(trabajoT);
+		cl.setTodosTrabajos(trabajoT);
+
+		System.out.println("\nTu trabajo ha sido publicado");
+		// opcional: crear una lista de trabajos y añadir el trabajo creado a esa lista
+
+	}
+
+	/**
+	 * metodo que permite ver los estados de los trabajos
+	 * 
+	 * @param cl, cliente que realiza la publicacion de un trabajo
+	 */
+	public void verEstadoTrabajo(Cliente cl) {
+
+		// lista de todos los trabajos del cliente
+		ArrayList<Trabajo> trabajos = cl.getTodosTrabajos();
+
+		for (int x = 0; x < trabajos.size(); x++) {
+
+			// trabajo a utilizar
+			Trabajo t = trabajos.get(x);
+
+			System.out.println("Trabajo " + (x + 1) + ": ");
+			System.out.println("	Descripcion: " + t.getDescripcion());
+			System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+
+		}
+
+	}
+
+	/**
+	 * metodo que permite ver los trabajos publicados
+	 * 
+	 * @param cl, cliente que realiza la publicacion de un trabajo
+	 */
+	public void verTrabajosPublicados(Cliente cl) {
+
+		// lista de todos los trabajos del cliente
+		ArrayList<Trabajo> trabajosP = cl.getTrabajosPublicados();
+
+		for (int x = 0; x < trabajosP.size(); x++) {
+
+			// trabajo a utilizar
+			Trabajo t = trabajosP.get(x);
+
+			System.out.println("Trabajo " + (x + 1) + ": ");
+			System.out.println("	Descripcion: " + t.getDescripcion());
+			System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+
+		}
+
+	}
+
+	/**
+	 * metodo que muestra el menu de las funciones que puede realizar el trabajador
+	 */
+	public void menuTrabajador(Trabajador trabajador) {
+
+		// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
+		// debe de ver los trabajos publicados por clientes
+		// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
+		// debe de poder calificar cliente
 	}
 
 	// Getters y Setters

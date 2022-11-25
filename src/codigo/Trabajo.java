@@ -13,6 +13,8 @@ import java.util.Date;
 import java.text.DateFormat;
 //se importa la librerira SimpleDateFormat
 import java.text.SimpleDateFormat;
+//se importa la libreria ArrayList
+import java.util.ArrayList;
 
 public class Trabajo {
 
@@ -51,19 +53,36 @@ public class Trabajo {
 	 */
 	private float precioFinal;
 	/**
-	 * estado en el que se encuentra el trabajo 
-	 * libre: trabajo publicado y nadie lo ha aceptado 
-	 * espera: trabajo publicado y existen propuestas de precio del trabajador
-	 * ocupado: trabajo publicado y ya ha sido negociado con un trabajador
+	 * lista de trabajadores que colocan propuestas para el trabajo
+	 */
+	private ArrayList<Trabajador> trabajadores = new ArrayList<Trabajador>();;
+	/**
+	 * estado en el que se encuentra el trabajo libre: trabajo publicado y nadie lo ha aceptado 
+	 * espera: trabajo publicado y existen propuestas de precio del trabajador 
+	 * negociando: trabajo publicado y tiene propuestas de trabajadores
+	 * pago: el trabajo finalizó pero falta pago del cliente 
+	 * finalizado: el trabajo ya finalizó cancelado: el trabajo fue cancelado
 	 */
 	private String estado;
 
 	// Constructor
-	public Trabajo(String descripcion, String fechaInicio, String fechaFinal, float precioInicio) {
+	/**
+	 * Constructor con 6 parámetros que instancia un trabajo con la fecha actual en
+	 * que se publica
+	 * 
+	 * @param descripcion,  descripcion del trabajo
+	 * @param fechaInicio,  fecha en que se iniciará el trabajo
+	 * @param fechaFinal,   fecha en que se finalizará el trabajo
+	 * @param precioInicio, precio con el que inicia el trabajo (lo coloca el
+	 *                      cliente)
+	 * @param estado,       estado del trabajo
+	 */
+	public Trabajo(String descripcion, String fechaInicio, String fechaFinal, float precioInicio, String estado) {
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
 		this.fechaFinal = fechaFinal;
 		this.precioInicio = precioInicio;
+		this.estado = estado;
 
 		// se obtiene la fecha en el momento que se realiza la publicacion
 		DateFormat fechaFormato = new SimpleDateFormat("d/M/yyyy");
@@ -205,5 +224,20 @@ public class Trabajo {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * @return trabajadores, variable que almacena los trabajadores que colocan
+	 *         propuestas para el trabajo
+	 */
+	public ArrayList<Trabajador> getTrabajadores() {
+		return trabajadores;
+	}
+
+	/**
+	 * @param trabajadores, variable que modifica el valor del atributo trabajadores
+	 */
+	public void setTrabajadores(ArrayList<Trabajador> trabajadores) {
+		this.trabajadores = trabajadores;
 	}
 }

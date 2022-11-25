@@ -25,6 +25,10 @@ public class Cliente extends Usuario {
 	 * trabajos que el trabajador ha completado o se han cancelado
 	 */
 	private ArrayList<Trabajo> trabajosFinalizados = new ArrayList<Trabajo>();
+	/**
+	 * todos los trabajos de cliente
+	 */
+	private ArrayList<Trabajo> todosTrabajos = new ArrayList<Trabajo>();
 
 	// Constructor
 	/**
@@ -92,4 +96,19 @@ public class Cliente extends Usuario {
 		this.trabajosFinalizados = trabajosFinalizados;
 	}
 
+	/**
+	 * @return todosTrabajos, variable que almacena una lista de todos los trabajos
+	 *         del Cliente
+	 */
+	public ArrayList<Trabajo> getTodosTrabajos() {
+		return todosTrabajos;
+	}
+
+	/**
+	 * @param todosTrabajos, variable que modifica el valor del atributo
+	 *                       todosTrabajos
+	 */
+	public void setTodosTrabajos(ArrayList<Trabajo> todosTrabajos) {
+		this.todosTrabajos = todosTrabajos;
+	}
 }
