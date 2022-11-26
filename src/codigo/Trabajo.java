@@ -60,6 +60,7 @@ public class Trabajo {
 	 * libre: trabajo publicado y nadie lo ha aceptado 
 	 * espera: trabajo publicado y existen propuestas de precio del trabajador 
 	 * realizando: trabajo publicado y que han sido aceptados por un trabajador 
+	 * pago: el trabajo finalizó pero falta pago del cliente 
 	 * finalizado: el trabajo ya finalizó cancelado: el trabajo fue cancelado
 	 */
 	private String estado;

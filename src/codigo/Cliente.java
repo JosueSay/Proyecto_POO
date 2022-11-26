@@ -22,7 +22,11 @@ public class Cliente extends Usuario {
 	 */
 	private ArrayList<Trabajo> trabajosEnCola = new ArrayList<Trabajo>();
 	/**
-	 * trabajos que el trabajador ha completado o se han cancelado
+	 * trabajos que el trabajador ha completado y no se han pagado
+	 */
+	private ArrayList<Trabajo> trabajosPagar = new ArrayList<Trabajo>();
+	/**
+	 * trabajos que el trabajador ha completados y pagados o cancelados
 	 */
 	private ArrayList<Trabajo> trabajosFinalizados = new ArrayList<Trabajo>();
 	/**
@@ -110,5 +114,21 @@ public class Cliente extends Usuario {
 	 */
 	public void setTodosTrabajos(ArrayList<Trabajo> todosTrabajos) {
 		this.todosTrabajos = todosTrabajos;
+	}
+
+	/**
+	 * @return trabajosPagar, variable que almacena una lista de todos los trabajos
+	 *         que estan pendientes por pagar
+	 */
+	public ArrayList<Trabajo> getTrabajosPagar() {
+		return trabajosPagar;
+	}
+
+	/**
+	 * @param trabajosPagar, variable que modifica el valor del atributo
+	 *                       trabajosPagar
+	 */
+	public void setTrabajosPagar(ArrayList<Trabajo> trabajosPagar) {
+		this.trabajosPagar = trabajosPagar;
 	}
 }
