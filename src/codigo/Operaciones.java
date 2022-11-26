@@ -282,14 +282,16 @@ public class Operaciones {
 
 			Usuario cl = new Cliente(usuarios.size() + 1, nombre, apellido, direccion, user, pass);
 			usuarios.add(cl);
-			// realizar if para la instancia y mostrar sus menus
 
 		} else {
+			// profesion del trabajador
+			String profesion;
+			System.out.print("Ingresa tu profesion: ");
+			profesion = r.nextLine();
+			profesion = r.nextLine();
 
-			Usuario tr = new Trabajador(usuarios.size() + 1, nombre, apellido, direccion, user, pass);
+			Usuario tr = new Trabajador(usuarios.size() + 1, nombre, apellido, direccion, profesion, user, pass);
 			usuarios.add(tr);
-			System.out.println(tr.getId());
-			// realizar if para la instancia y mostrar sus menus
 
 		}
 	}
@@ -315,7 +317,7 @@ public class Operaciones {
 				System.out.print("Ingresa el numero de usuario que eres (1) Cliente, (2) Trabajador: ");
 				tipoT = r.nextInt();
 
-				// la respuesta ingresada es un entero que no esta en las opciones
+				// la respuesta ingresada es un entero esta en las opciones
 				if (tipoT == 1 || tipoT == 2) {
 
 					banderaT = false;
@@ -344,6 +346,7 @@ public class Operaciones {
 		return tipoT;
 	}
 
+	// Métodos para Cliente
 	/**
 	 * metodo que muestra el menu de las funciones que puede realizar el cliente
 	 * 
@@ -365,8 +368,9 @@ public class Operaciones {
 			// evaluando errores
 			try {
 
-				System.out.println(
-						"\n1. Publicar Trabajo\n2. Ver estado de los trabajos\n3. Ver Trabajos publicados\n4. Ver trabajos con propuestas\n5. Ver trabajos finalizados\n6. Cerrar cuenta\n7. Salir");
+				System.out.println("\n1. Publicar Trabajo\n2. Modificar trabajo\n3. Cancelar trabajo"
+						+ "\n4. Ver estado de los trabajos\n5. Ver Trabajos publicados\n6. Ver trabajos con propuestas"
+						+ "\n7. Ver trabajos por pagar\n8. Cerrar cuenta\n8. Salir");
 				System.out.print("\nIngresa la opcion que desee: ");
 				respuesta_int = r.nextInt();
 
@@ -379,42 +383,54 @@ public class Operaciones {
 					publicarTrabajo(cliente);
 					break;
 
-				// segunda opcion: ver el estado de los trabajos
+				// segunda opcion: modificar los atributos de un trabajo
 				case 2:
+					continuarC = true;
+					modificarTrabajo(cliente);
+					break;
+
+				// tercera opcion: cancelar/eliminar un trabajo
+				case 3:
+					continuarC = true;
+					cancelarTrabajo(cliente);
+					break;
+
+				// cuarta opcion: ver el estado de los trabajos
+				case 4:
 					continuarC = true;
 					verEstadoTrabajo(cliente);
 					break;
 
-				// tercera opcion: ver Trabajos publicados
-				case 3:
+				// quinta opcion: ver Trabajos publicados
+				case 5:
 					continuarC = true;
 					verTrabajosPublicados(cliente);
 					System.out.println("");
 					break;
 
-				// cuarta opcion: ver trabajos con propuestas
-				case 4:
-					continuarC = true;
-					// metodo
-					System.out.println("");
-					break;
-
-				// quinta opcion: ver trabajos finalizados
-				case 5:
-					continuarC = true;
-					// metodo
-					System.out.println("");
-					break;
-
-				// sexta opcion: cerrar cuenta
+				// sexta opcion: ver trabajos con propuestas
 				case 6:
 					continuarC = true;
-					// metodo
+					verTrabajosPropuesta(cliente);
 					System.out.println("");
 					break;
 
-				// septima opcion: salir del programa
+				// septima opcion: ver trabajos por pagar
 				case 7:
+					continuarC = true;
+					verTrabajosPagar(cliente);
+					System.out.println("");
+					break;
+
+				// octava opcion: cerrar cuenta
+				case 8:
+					continuarC = false;
+					cerrarCuenta(cliente);
+					System.out.println("");
+					break;
+
+				// novena opcion: salir del programa
+				case 9:
 					continuarC = false;
 					System.out.println("======================================");
 					System.out.println("       ||Saliste del programa||       ");
@@ -438,17 +454,6 @@ public class Operaciones {
 			}
 
 		} while (continuarC);
-
-		// opcion 5
-		System.out.println("1. Ver propuestas de trabajadores\2. Cancelar trabajo\n3. Regresar");
-
-		// opcion 3
-		System.out.println("1. Cancelar trabajo\n2. Modificar trabajo\n3. Regresar");
-
-		// opcion 5
-		// colcoar primero los trabajos por pago
-		System.out.println("1. Pagar trabajador\n2. Regresar");
-
 	}
 
 	/**
@@ -463,7 +468,6 @@ public class Operaciones {
 		String fechaInicio;
 		String fechaFinal;
 		float precio = 0;
-		String estado = "espera";
 		// variable que permite identificar si hay mal ingreso de datos
 		// true: hay mal ingreso de datos, false: no hay mal ingreso de datos
 		boolean banderaP;
@@ -495,7 +499,7 @@ public class Operaciones {
 		} while (banderaP);
 
 		// crear trabajo
-		Trabajo trabajo = new Trabajo(descripcion, fechaInicio, fechaFinal, precio, estado);
+		Trabajo trabajo = new Trabajo(cl.getTodosTrabajos().size() + 1, descripcion, fechaInicio, fechaFinal, precio);
 
 		// añadir el trabajo a los trabajos publicados y a trabajos generales de cliente
 		ArrayList<Trabajo> trabajoT = cl.getTrabajosPublicados();
@@ -505,6 +509,14 @@ public class Operaciones {
 
 		System.out.println("\nTu trabajo ha sido publicado");
 		// opcional: crear una lista de trabajos y añadir el trabajo creado a esa lista
+
+	}
+
+	public void modificarTrabajo(Cliente cl) {
+
+	}
+
+	public void cancelarTrabajo(Cliente cl) {
 
 	}
 
@@ -518,14 +530,26 @@ public class Operaciones {
 		// lista de todos los trabajos del cliente
 		ArrayList<Trabajo> trabajos = cl.getTodosTrabajos();
 
-		for (int x = 0; x < trabajos.size(); x++) {
+		// verificar si existen trabajos
+		boolean existeT = existenTrabajos(trabajos);
 
-			// trabajo a utilizar
-			Trabajo t = trabajos.get(x);
+		// si existen hacer el método si no, avisar que no hay trabajos publicados
+		if (existeT) {
 
-			System.out.println("Trabajo " + (x + 1) + ": ");
-			System.out.println("	Descripcion: " + t.getDescripcion());
-			System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+			for (int x = 0; x < trabajos.size(); x++) {
+
+				// trabajo a utilizar
+				Trabajo t = trabajos.get(x);
+
+				System.out.println("\nTrabajo " + (x + 1) + ": ");
+				System.out.println("	Descripcion: " + t.getDescripcion());
+				System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+
+			}
+
+		} else {
+
+			System.out.println("No existen trabajos. Puedes introducir la opcion 1 para publicar un trabajo");
 
 		}
 
@@ -538,22 +562,392 @@ public class Operaciones {
 	 */
 	public void verTrabajosPublicados(Cliente cl) {
 
-		// lista de todos los trabajos del cliente
+		// lista de todos los trabajos publicados por el cliente
 		ArrayList<Trabajo> trabajosP = cl.getTrabajosPublicados();
 
-		for (int x = 0; x < trabajosP.size(); x++) {
+		// verificar si existen trabajos
+		boolean existeT = existenTrabajos(trabajosP);
 
-			// trabajo a utilizar
-			Trabajo t = trabajosP.get(x);
+		if (existeT) {
 
-			System.out.println("Trabajo " + (x + 1) + ": ");
-			System.out.println("	Descripcion: " + t.getDescripcion());
-			System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+			System.out.println("Los trabajos que has publicado son: \n");
+
+			for (int x = 0; x < trabajosP.size(); x++) {
+
+				// trabajo a utilizar
+				Trabajo t = trabajosP.get(x);
+
+				System.out.println("Trabajo " + (x + 1) + ": ");
+				System.out.println("	Descripcion: " + t.getDescripcion());
+				System.out.println("	Estado: " + "\"" + t.getEstado() + "\"");
+				System.out.println("	Precio del trabajo: Q." + t.getPrecioInicio());
+				System.out.println("	Fecha de publicacion: " + t.getFechaPublicacion());
+
+			}
+
+		} else {
+
+			System.out.println("No existen trabajos. Puedes introducir la opcion 1 para publicar un trabajo");
 
 		}
 
 	}
 
+	/**
+	 * metodo que permite ver los trabajos que tiene propuestas de precio de los
+	 * trabajadores
+	 * 
+	 * @param cl, cliente que realiza la publicacion de un trabajo
+	 */
+	public void verTrabajosPropuesta(Cliente cl) {
+
+		// lista de todos los trabajos publicados por el cliente
+		ArrayList<Trabajo> trabajosP = cl.getTrabajosPublicados();
+		// lista de todos los trabajos que tienen precio de propuesta de trabajadores
+		ArrayList<Trabajo> trabajosPropuesta = new ArrayList<Trabajo>();
+
+		// obtener todos los trabajos con estado "realizando"
+		for (int x = 0; x < trabajosP.size(); x++) {
+
+			if ("esperando".equals(trabajosP.get(x).getEstado())) {
+
+				trabajosPropuesta.add(trabajosP.get(x));
+
+			}
+		}
+
+		// verificar si existen trabajos
+		boolean existeT = existenTrabajos(trabajosPropuesta);
+
+		if (existeT) {
+
+			System.out.println("Los trabajos con propuestas son: \n");
+
+			for (int x = 0; x < trabajosPropuesta.size(); x++) {
+
+				// trabajo a utilizar
+				Trabajo t = trabajosPropuesta.get(x);
+
+				System.out.println("Trabajo " + (x + 1) + ": ");
+				System.out.println("	Datos del trabajo:");
+				System.out.println("		Descripcion: " + t.getDescripcion());
+				System.out.println("		Precio del trabajo: Q." + t.getPrecioInicio());
+				System.out.println("");
+				System.out.println("	Datos del Trabajador:");
+				System.out.println(
+						"		Nombre: " + t.getTrabajador().getNombre() + " " + t.getTrabajador().getApellido());
+				System.out.println("		Profesion: " + t.getTrabajador().getProfesion());
+				System.out.println("		Oferta por trabajo: Q." + t.getPrecioNegocio() + "\n");
+
+			}
+
+			tomarOfertaTrabajador(trabajosPropuesta, cl);
+
+		} else {
+
+			System.out.println("No existen trabajos. Puedes introducir la opcion 1 para publicar un trabajo");
+
+		}
+
+	}
+
+	/**
+	 * metodo para preguntar si quiere aceptar o rechazar la oferta de trabajo del
+	 * trabajador
+	 * 
+	 * @param listaP, lista con los trabajos que tienen una propuesta
+	 */
+	public void tomarOfertaTrabajador(ArrayList<Trabajo> listaP, Cliente cl) {
+
+		// variable para el ingreso de la opcion del usuario
+		int respuesta;
+		// variable que permite seguir mostrando el menu
+		// true: mostrar el menu nuevamente
+		// false: no mostrar el menu nuevamente
+		boolean continuar;
+
+		// ciclo para mostrar menu
+		do {
+
+			// evaluar errores
+			try {
+
+				System.out.println("Ingresa la opcion que desees:");
+				System.out.println("1. Aceptar oferta del trabajo\n2. Rechazar oferta del trabajo\n3. Salir");
+				respuesta = r.nextInt();
+
+				// aceptar trabajador
+				if (respuesta == 1) {
+
+					// obtener el id del trabajo a aceptar y cambiar estado
+					int idT = dameIDTrabajo(listaP, cl);
+
+					actualizarListas("realizando", idT, cl);
+
+					continuar = false;
+
+					// rechazar trabajador
+				} else if (respuesta == 2) {
+
+					// obtener el id del trabajo a rechazar y cambiar estado
+					int idT = dameIDTrabajo(listaP, cl);
+					actualizarListas("libre", idT, cl);
+					continuar = false;
+
+					// salir
+				} else if (respuesta == 3) {
+
+					// no mostrar el menu nuevamente
+					continuar = false;
+
+					// la respuesta ingresada es un entero que no esta en las opciones
+				} else {
+
+					System.out.println("La respuesta " + "\"" + respuesta + "\""
+							+ " no esta dentro de las opciones permitidas. Intenta nuevamente");
+					System.out.println("");
+					continuar = true;
+
+				}
+
+				// la respuesta ingresada no es un entero
+			} catch (InputMismatchException e) {
+
+				System.out.println(
+						"La opcion ingresada no es valida, debe ingresar un numero entero. Intenta nuevamente");
+				System.out.println("");
+				r.next();
+				continuar = true;
+			}
+
+			// si hubo un inadecuado ingreso de datos, mostrar el menu nuevamente
+		} while (continuar);
+
+	}
+
+	/**
+	 * metodo para obtener el id del trabajo
+	 * 
+	 * @param listaP, lista con los trabajos que tienen una propuesta
+	 * @return indice, variable que contiene el indice del trabajo a eliminar o
+	 *         rechazar
+	 */
+	public int dameIDTrabajo(ArrayList<Trabajo> listaP, Cliente cliente) {
+
+		// variable a retornar que tiene el id del trabajo a eliminar o rechazar
+		int id = 0;
+		// cantidad de elementos de listaP
+		int nelementos = listaP.size();
+		// numero de trabajo a aceptar/rechazar
+		int respuesta;
+		// variable que permite identificar si hay mal ingreso de datos
+		// true: hay mal ingreso de datos, false: no hay mal ingreso de datos
+		boolean banderaT;
+
+		// ciclo para pedir el tipo de usuario
+		do {
+
+			// verificar ingreso inadecuado de datos
+			try {
+
+				System.out.print("Ingresa el numero de trabajo: ");
+				respuesta = r.nextInt();
+
+				// la respuesta ingresada esta dentro de los numeros de los trabajos mostrados
+				if ((respuesta > 0) && (respuesta <= nelementos)) {
+
+					// indice del trabajo a aceptar
+					id = listaP.get(respuesta - 1).getId();
+					banderaT = false;
+
+					// la respuesta ingresada no está dentro de los numeros de trabajos mostrados
+				} else {
+
+					System.out.println("La respuesta " + "\"" + respuesta + "\""
+							+ " no esta dentro de las opciones permitidas. Intenta nuevamente");
+					System.out.println("");
+					banderaT = true;
+
+				}
+
+				// la respuesta ingresada no es un entero
+			} catch (InputMismatchException e) {
+
+				System.out.println(
+						"La opcion ingresada no es valida, debe ingresar un numero entero. Intenta nuevamente");
+				System.out.println("");
+				r.nextLine();
+				banderaT = true;
+
+			}
+		} while (banderaT);
+
+		return id;
+	}
+
+	/**
+	 * metodo para actualizar las listas de cliente al aceptar o rechazar un
+	 * trabajador
+	 * 
+	 * @param nuevoEstado, estado del trabajo a modificar
+	 * @param id,          id del trabajo a modificar
+	 * @param cl,          cliente que está realizando los cambios
+	 */
+	public void actualizarListas(String nuevoEstado, int id, Cliente cl) {
+
+		// trabajo a actualizar
+		Trabajo trabajo;
+
+		// listas a actualizar en el cliente
+		ArrayList<Trabajo> trabajosPublicados = cl.getTrabajosPublicados();
+		ArrayList<Trabajo> trabajosEnCola = cl.getTrabajosEnCola();
+		ArrayList<Trabajo> todosTrabajos = cl.getTrabajosEnCola();
+
+		// buscar el indice del trabajo a actualizar
+		for (int x = 0; x < trabajosPublicados.size(); x++) {
+
+			// si se encuentra realizar las modificaciones
+			if (id == trabajosPublicados.get(x).getId()) {
+
+				// cambiar estado
+				trabajo = trabajosPublicados.get(x);
+				trabajo.setEstado(nuevoEstado);
+
+				if (nuevoEstado.equals("realizando")) {
+
+					// quitar de publicados y colocar en la lista en cola de clientes
+					trabajosPublicados.remove(x);
+					trabajosEnCola.add(trabajo);
+
+					// setear las listas actualizadas
+					cl.setTrabajosPublicados(trabajosPublicados);
+					cl.setTrabajosEnCola(trabajosEnCola);
+
+					// modificar la lista que guarda todos los trabajos
+					for (int i = 0; i < todosTrabajos.size(); i++) {
+
+						// si se encuentra realizar las modificaciones
+						if (id == todosTrabajos.get(x).getId()) {
+
+							// si se encuentra realizar las modificaciones
+							todosTrabajos.remove(x);
+							todosTrabajos.add(trabajo);
+
+							// setear la lista actualizada
+							cl.setTodosTrabajos(todosTrabajos);
+						}
+					}
+
+				} else if (nuevoEstado.equals("libre")) {
+
+					// quitar de publicados
+					trabajosPublicados.remove(x);
+					// setear las listas actualizadas
+					cl.setTrabajosPublicados(trabajosPublicados);
+
+					// modificar la lista que guarda todos los trabajos
+					for (int i = 0; i < todosTrabajos.size(); i++) {
+
+						// si se encuentra realizar las modificaciones
+						if (id == todosTrabajos.get(x).getId()) {
+
+							// si se encuentra realizar las modificaciones
+							todosTrabajos.remove(x);
+							todosTrabajos.add(trabajo);
+
+							// setear la lista actualizada
+							cl.setTodosTrabajos(todosTrabajos);
+
+						}
+					}
+				} else {
+
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * metodo que se utiliza para verificar si existen trabajos en la clase cliente
+	 * 
+	 * @param listaT, lista de trabajos a verificar si existen trabajos
+	 * @return banderaL, variable que identifica si existen o no trabajos en la
+	 *         lista enviada; true: hay trabajos, false: no hay trabajos
+	 */
+	public boolean existenTrabajos(ArrayList<Trabajo> lisT) {
+
+		// variable que identifica si hay trabajos en la lista enviada
+		boolean banderaL;
+		// tamaño de la lista enviada
+		int tamList = lisT.size();
+
+		// si existe o no trabajos en modificar banderaL
+		if (tamList == 0) {
+
+			banderaL = false;
+
+		} else {
+
+			banderaL = true;
+
+		}
+		return banderaL;
+	}
+
+	/**
+	 * metodo para pagar trabajos
+	 */
+	public void verTrabajosPagar(Cliente cl) {
+
+	}
+
+	/**
+	 * metodo para cerrar cuenta de usuario
+	 * 
+	 * @param u, usuario para eliminar de la lista de usuarios (cerrar cuenta)
+	 */
+	public void cerrarCuenta(Usuario u) {
+
+		// eliminar al usuario enviado mediante su id
+		if (u instanceof Cliente) {
+
+			Cliente cl = (Cliente) (u);
+
+			int id = cl.getId();
+
+			for (int x = 0; x < usuarios.size(); x++) {
+
+				if (id == usuarios.get(x).getId()) {
+
+					System.out.println("Gracias por usar nuestro programa " + usuarios.get(x).getNombre());
+
+					usuarios.remove(x);
+
+				}
+			}
+
+		} else {
+
+			Trabajador tr = (Trabajador) (u);
+
+			int id = tr.getId();
+
+			for (int x = 0; x < usuarios.size(); x++) {
+
+				if (id == usuarios.get(x).getId()) {
+
+					System.out.println("Gracias por usar nuestro programa " + usuarios.get(x).getNombre());
+
+					usuarios.remove(x);
+
+				}
+			}
+		}
+
+	}
+
+	// Metodos para Trabajador
 	/**
 	 * metodo que muestra el menu de las funciones que puede realizar el trabajador
 	 */
@@ -565,6 +959,8 @@ public class Operaciones {
 		// debe de poder calificar cliente
 	}
 
+	// Getters y Setters
+	// Getters y Setters
 	// Getters y Setters
 	/**
 	 * @return usuarios, variable que almacena una lista de todos los usuarios

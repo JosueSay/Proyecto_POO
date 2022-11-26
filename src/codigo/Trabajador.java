@@ -14,6 +14,18 @@ package codigo;
 
 public class Trabajador extends Usuario {
 
+	// Atributos
+	/**
+	 * variable que identifica si el trabajador puede obtener un trabajo, solo optar
+	 * por un trabajo a la vez true: puede pedir y tomar un trabajo, false: no puede
+	 * pedir ni tomar un trabajo
+	 */
+	private boolean optarTrabajo = true;
+	/**
+	 * profesion del trabajador
+	 */
+	private String profesion;
+
 	// Constructor
 	/**
 	 * Constructor con 6 parámetros
@@ -25,15 +37,38 @@ public class Trabajador extends Usuario {
 	 * @param username,   nombre de usuario para el inicio de sesion
 	 * @param password,   contraseña del usuario para el inicio de sesion
 	 */
-	public Trabajador(int id, String nombre, String apellido, String direccion, String username, String password) {
+	public Trabajador(int id, String nombre, String apellido, String direccion, String profesion, String username,
+			String password) {
 		super(id, nombre, apellido, direccion, username, password);
-
+		this.profesion = profesion;
 	}
 
-	// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
-	// debe de ver los trabajos publicados por clientes
-	// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
-	// (opcional )debe de poder calificar cliente
-	
-	
+	/**
+	 * @return optarTrabajo, variable que identifica si un trabajador puede pedir y
+	 *         tomar un trabajo
+	 */
+	public boolean isOptarTrabajo() {
+		return optarTrabajo;
+	}
+
+	/**
+	 * @param optarTrabajo, variable que modifica el atributo optarTrabajo
+	 */
+	public void setOptarTrabajo(boolean optarTrabajo) {
+		this.optarTrabajo = optarTrabajo;
+	}
+
+	/**
+	 * @return profesion, variable que almacena la profesion del trabajador
+	 */
+	public String getProfesion() {
+		return profesion;
+	}
+
+	/**
+	 * @param profesion, variable que modifica el atributo profesion
+	 */
+	public void setProfesion(String profesion) {
+		this.profesion = profesion;
+	}
 }

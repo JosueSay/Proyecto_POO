@@ -13,12 +13,14 @@ import java.util.Date;
 import java.text.DateFormat;
 //se importa la librerira SimpleDateFormat
 import java.text.SimpleDateFormat;
-//se importa la libreria ArrayList
-import java.util.ArrayList;
 
 public class Trabajo {
 
 	// Atributos
+	/**
+	 * id del trabajo
+	 * */
+	private int id;
 	/**
 	 * trabajador que acepta el trabajo
 	 */
@@ -52,15 +54,12 @@ public class Trabajo {
 	 * trabajo
 	 */
 	private float precioFinal;
+
 	/**
-	 * lista de trabajadores que colocan propuestas para el trabajo
-	 */
-	private ArrayList<Trabajador> trabajadores = new ArrayList<Trabajador>();;
-	/**
-	 * estado en el que se encuentra el trabajo libre: trabajo publicado y nadie lo ha aceptado 
+	 * estado en el que se encuentra el trabajo 
+	 * libre: trabajo publicado y nadie lo ha aceptado 
 	 * espera: trabajo publicado y existen propuestas de precio del trabajador 
-	 * negociando: trabajo publicado y tiene propuestas de trabajadores
-	 * pago: el trabajo finalizó pero falta pago del cliente 
+	 * realizando: trabajo publicado y que han sido aceptados por un trabajador 
 	 * finalizado: el trabajo ya finalizó cancelado: el trabajo fue cancelado
 	 */
 	private String estado;
@@ -70,6 +69,7 @@ public class Trabajo {
 	 * Constructor con 6 parámetros que instancia un trabajo con la fecha actual en
 	 * que se publica
 	 * 
+	 * @param id,			identificador interno del trabajo
 	 * @param descripcion,  descripcion del trabajo
 	 * @param fechaInicio,  fecha en que se iniciará el trabajo
 	 * @param fechaFinal,   fecha en que se finalizará el trabajo
@@ -77,12 +77,12 @@ public class Trabajo {
 	 *                      cliente)
 	 * @param estado,       estado del trabajo
 	 */
-	public Trabajo(String descripcion, String fechaInicio, String fechaFinal, float precioInicio, String estado) {
+	public Trabajo(int id,String descripcion, String fechaInicio, String fechaFinal, float precioInicio) {
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
 		this.fechaFinal = fechaFinal;
 		this.precioInicio = precioInicio;
-		this.estado = estado;
+		this.estado = "libre";
 
 		// se obtiene la fecha en el momento que se realiza la publicacion
 		DateFormat fechaFormato = new SimpleDateFormat("d/M/yyyy");
@@ -227,17 +227,16 @@ public class Trabajo {
 	}
 
 	/**
-	 * @return trabajadores, variable que almacena los trabajadores que colocan
-	 *         propuestas para el trabajo
+	 * @return id, variable que almacena el id del trabajo
 	 */
-	public ArrayList<Trabajador> getTrabajadores() {
-		return trabajadores;
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @param trabajadores, variable que modifica el valor del atributo trabajadores
+	 * @param id, variable que modifica el valor del atributo id
 	 */
-	public void setTrabajadores(ArrayList<Trabajador> trabajadores) {
-		this.trabajadores = trabajadores;
+	public void setId(int id) {
+		this.id = id;
 	}
 }
