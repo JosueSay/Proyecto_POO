@@ -1201,7 +1201,7 @@ public class Operaciones {
 				// primera opcion: ver lista de trabajos
 				case 1:
 					continuarC = true;
-					// metodo
+					verTrabajos();
 					break;
 
 				// segunda opcion: Obtener trabajo
@@ -1260,13 +1260,17 @@ public class Operaciones {
 
 	/**
 	 * metodo para ver los trabajos que han publicado los clientes
+	 * 
+	 * @return listaOrdenada, lista que almacena una lista con un cliente y una
+	 *         lista de trabajos con estado libre, esta lista se utilizará para
+	 *         identificar el cliente y sus trabajos libres cuando el trabajador
+	 *         quiera optar por un trabajo
 	 */
 	public ArrayList<Object> verTrabajos() {
 
-		// respuestas del trabajador
-//		int nCliente;
-//		int nTrabajo;
-
+		// lista de las lista de clientes y trabajos libres, donde el indice del
+		// elemento contiene un cliente y su lista de trabajos
+		ArrayList<Object> listaOrdenada = new ArrayList<Object>();
 		// lista de clientes y trabajos libres
 		ArrayList<Object> clientesT = new ArrayList<Object>();
 		// lista de los clientes con trabajos
@@ -1307,32 +1311,46 @@ public class Operaciones {
 				System.out.println("(" + (c + 1) + ")" + "Cliente: " + cl.getNombre() + " " + cl.getApellido());
 
 				// mostrar los trabajos
-
 				for (int x = 0; x < trabajos.size(); x++) {
-					
+
 					// trabajo que se utiliza
 					Trabajo tr = trabajos.get(x);
-					
 
-					System.out.println("	(" + (x+1) + ")" + "Trabajo: ");
-					System.out.println("		Descripcion:(" + (x+1) + ")" + "Trabajo: ");
-					System.out.println("		Precio:(" + (x+1) + ")" + "Trabajo: ");
-					
-					
+					System.out.println("	(" + (x + 1) + ")" + "Trabajo: ");
+					System.out.println("		Descripcion:(" + (x + 1) + ")" + "Trabajo: ");
+					System.out.println("		Precio: " + tr.getPrecioInicio());
+					System.out.println("		Fecha inicio: " + tr.getFechaInicio());
+					System.out.println("		Fecha inicio: " + tr.getFechaFinal());
 				}
-
-				
 
 				// añadir el cliente y sus trabajos a la lista clienteT
 				clientesT.add(cl);
 				clientesT.add(trabajos);
 				// vaciar la lista trabajos para guardas los trabajos del próximo cliente
 				trabajos.clear();
+				// se añade la lista de con cliente y trabajos a una la lista ordenada
+				listaOrdenada.add(clientesT);
+				// se vacia la lista que contiene el cliente y sus trabajos
+				clientesT.clear();
 
 			}
 		}
 
-		return clientesT;
+		return listaOrdenada;
+	}
+
+	/**
+	 * metodo que muestra los trabajos libres con su cliente y puede tomar el
+	 * trabajo que el Trabajador desee
+	 * 
+	 * @param ct, lista de listas con un cliente y sus trabajos
+	 */
+	public void tomarTrabajo(ArrayList<Object> ct) {
+
+		// respuestas del trabajador
+//		int nCliente;
+//		int nTrabajo;
+
 	}
 
 	// Getters y Setters
