@@ -282,6 +282,9 @@ public class Operaciones {
 
 			Usuario cl = new Cliente(usuarios.size() + 1, nombre, apellido, direccion, user, pass);
 			usuarios.add(cl);
+			Cliente cliente = (Cliente) (cl);
+
+			menuCliente(cliente);
 
 		} else {
 			// profesion del trabajador
@@ -292,6 +295,9 @@ public class Operaciones {
 
 			Usuario tr = new Trabajador(usuarios.size() + 1, nombre, apellido, direccion, profesion, user, pass);
 			usuarios.add(tr);
+
+			Trabajador trabajador = (Trabajador) (tr);
+			menuTrabajador(trabajador);
 
 		}
 	}
@@ -1170,10 +1176,136 @@ public class Operaciones {
 	 */
 	public void menuTrabajador(Trabajador trabajador) {
 
-		// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
-		// debe de ver los trabajos publicados por clientes
-		// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
-		// debe de poder calificar cliente
+		// variable para el ingreso de la opcion del usuario
+		int respuesta_int;
+		// variable para continuar el ciclo para mostrar menu
+		boolean continuarC;
+
+		System.out.println("======================================");
+		System.out.println("	||Bienvenido " + trabajador.getNombre() + "||");
+		System.out.println("======================================");
+
+		// mostrar menu
+		do {
+			// evaluando errores
+			try {
+
+				System.out.println("\n1. Ver lista de trabajos\n2. Realizar trabajo"
+						+ "\n3. Cobrar trabajo\n4. Ver Trabajos realizados\n5. Cerrar cuenta\n6. Salir");
+				System.out.print("\nIngresa la opcion que desee: ");
+				respuesta_int = r.nextInt();
+
+				// se realiza la opcion que se ingreso
+				switch (respuesta_int) {
+
+				// primera opcion: ver lista de trabajos
+				case 1:
+					continuarC = true;
+					// metodo
+					break;
+
+				// segunda opcion: realizar trabajo
+				case 2:
+					continuarC = true;
+
+						ArrayList<Trabajo> trabajosEnCola = cl.getTrabajosEnCola();
+						ArrayList<Trabajo> trabajosFinalizados = cl.getTrabajosFinalizados();
+						
+						for (int i = 0; i < trabajosEnCola.size();i++){
+							System.out.println("Trabajo " + i + "\n" + cl.getTrabajosEnCola());
+						}
+						System.out.println("Indique que trabajo desea realizar: ");
+						r.nextInt();
+						for (int i = 0; i < trabajosEnCola.size();i++){
+							if(r == i){
+								System.out.println("Trabajo realizado");
+								trabajosFinalizados.get(i).add(trabajosEnCola.get(i));
+								trabajosEnCola.remove(trabajosEnCola);
+
+							}
+						}
+						
+					break;
+
+				// tercera opcion: cobrar trabajo
+				case 3:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// cuarta opcion: ver trabajos realizados
+				case 4:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// quinta opcion: cerrar cuenta
+				case 5:
+					continuarC = false;
+					cerrarCuenta(trabajador);
+					System.out.println("");
+					break;
+
+				// sexta opcion: salir del programa
+				case 6:
+					continuarC = false;
+					System.out.println("======================================");
+					System.out.println("       ||Saliste del programa||       ");
+					System.out.println("======================================");
+					System.out.println("");
+					break;
+
+				// no se ingreso los enteros permitidos para las opciones
+				default:
+					System.out.println("La respuesta " + "\"" + respuesta_int + "\""
+							+ " no esta dentro de las opciones permitidas. Intenta nuevamente");
+					continuarC = true;
+				}
+
+				// el usuario ingreso un dato diferente de int
+			} catch (InputMismatchException e) {
+				System.out.println(
+						"La opcion ingresada no es valida, debe ingresar un numero entero. Intenta nuevamente");
+				r.next();
+				continuarC = true;
+			}
+
+		} while (continuarC);
+	}
+
+	/**
+	 * metodo para ver los trabajos que han publicado los clientes
+	 */
+	public void verTrabajos() {
+
+		// respuestas del trabajador
+		int nCliente;
+		int nTrabajo;
+
+		// lista de los clientes con trabajos
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+
+		// obtener todos los clientes
+		for (int c = 0; c < usuarios.size(); c++) {
+
+			if (usuarios.get(c) instanceof Cliente) {
+
+				clientes.add((Cliente) (usuarios.get(c)));
+			}
+
+		}
+
+		// ver los trabajos
+		for (int c = 0; c < clientes.size(); c++) {
+
+			Cliente cl = clientes.get(c);
+
+			System.out.println("(" + (c + 1) + ")" + "");
+
+		}
+
 	}
 
 	// Getters y Setters
@@ -1191,4 +1323,5 @@ public class Operaciones {
 	public void setUsuarios(ArrayList<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
+
 }
