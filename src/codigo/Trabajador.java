@@ -1,6 +1,7 @@
 // la siguiente linea de codigo contiene las clases del programa, si hay error, descomentar la linea de codigo
 package codigo;
 
+// se importa la libreria ArrayList
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,11 @@ public class Trabajador extends Usuario {
 	 * trabajo que almacena el trabajo que realiza el trabajador
 	 */
 	private Trabajo trabajo;
+
+	/**
+	 * lista de trabajos que contiene los trabajos realizados
+	 */
+	private ArrayList<Trabajo> trabajoR;
 
 	/**
 	 * variable que identifica si el trabajador puede obtener un trabajo, solo optar
@@ -95,6 +101,17 @@ public class Trabajador extends Usuario {
 		this.profesion = profesion;
 	}
 
+	/**
+	 * @return trabajoR, variable que almacena los trabajos realizados
+	 */
+	public ArrayList<Trabajo> getTrabajoR() {
+		return trabajoR;
+	}
 
-
+	/**
+	 * @param trabajoR, variable que modifica el atributo trabajoR
+	 */
+	public void setTrabajoR(ArrayList<Trabajo> trabajoR) {
+		this.trabajoR = trabajoR;
+	}
 }

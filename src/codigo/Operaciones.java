@@ -1190,7 +1190,7 @@ public class Operaciones {
 			// evaluando errores
 			try {
 
-				System.out.println("\n1. Ver lista de trabajos\n2. Realizar trabajo"
+				System.out.println("\n1. Ver lista de trabajos\n2. Obtener trabajo"
 						+ "\n3. Cobrar trabajo\n4. Ver Trabajos realizados\n5. Cerrar cuenta\n6. Salir");
 				System.out.print("\nIngresa la opcion que desee: ");
 				respuesta_int = r.nextInt();
@@ -1204,27 +1204,10 @@ public class Operaciones {
 					// metodo
 					break;
 
-				// segunda opcion: realizar trabajo
+				// segunda opcion: Obtener trabajo
 				case 2:
 					continuarC = true;
-
-						ArrayList<Trabajo> trabajosEnCola = cl.getTrabajosEnCola();
-						ArrayList<Trabajo> trabajosFinalizados = cl.getTrabajosFinalizados();
-						
-						for (int i = 0; i < trabajosEnCola.size();i++){
-							System.out.println("Trabajo " + i + "\n" + cl.getTrabajosEnCola());
-						}
-						System.out.println("Indique que trabajo desea realizar: ");
-						r.nextInt();
-						for (int i = 0; i < trabajosEnCola.size();i++){
-							if(r == i){
-								System.out.println("Trabajo realizado");
-								trabajosFinalizados.get(i).add(trabajosEnCola.get(i));
-								trabajosEnCola.remove(trabajosEnCola);
-
-							}
-						}
-						
+					// metodo
 					break;
 
 				// tercera opcion: cobrar trabajo
@@ -1278,14 +1261,18 @@ public class Operaciones {
 	/**
 	 * metodo para ver los trabajos que han publicado los clientes
 	 */
-	public void verTrabajos() {
+	public ArrayList<Object> verTrabajos() {
 
 		// respuestas del trabajador
-		int nCliente;
-		int nTrabajo;
+//		int nCliente;
+//		int nTrabajo;
 
+		// lista de clientes y trabajos libres
+		ArrayList<Object> clientesT = new ArrayList<Object>();
 		// lista de los clientes con trabajos
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		// lista de trabajos libres
+		ArrayList<Trabajo> trabajos = new ArrayList<Trabajo>();
 
 		// obtener todos los clientes
 		for (int c = 0; c < usuarios.size(); c++) {
@@ -1296,16 +1283,56 @@ public class Operaciones {
 			}
 
 		}
+		System.out.println("Los clientes con trabajos disponibles son: \n");
 
 		// ver los trabajos
 		for (int c = 0; c < clientes.size(); c++) {
 
+			// cliente que se utiliza
 			Cliente cl = clientes.get(c);
 
-			System.out.println("(" + (c + 1) + ")" + "");
+			// obtener todos los trabajos que tienen un estado "libre"
+			for (int t = 0; t < cl.getTrabajosPublicados().size(); t++) {
 
+				if ("libre".equals(cl.getTrabajosPublicados().get(t).getEstado())) {
+
+					trabajos.add(cl.getTrabajosPublicados().get(t));
+				}
+			}
+
+			// si se encontraron trabajos mostrarlos y añadirlo a la lista clienteT en la
+			// que se almacena 1 cliente y luego sus trabajos publicados con estado libre
+			if (trabajos.size() != 0) {
+
+				System.out.println("(" + (c + 1) + ")" + "Cliente: " + cl.getNombre() + " " + cl.getApellido());
+
+				// mostrar los trabajos
+
+				for (int x = 0; x < trabajos.size(); x++) {
+					
+					// trabajo que se utiliza
+					Trabajo tr = trabajos.get(x);
+					
+
+					System.out.println("	(" + (x+1) + ")" + "Trabajo: ");
+					System.out.println("		Descripcion:(" + (x+1) + ")" + "Trabajo: ");
+					System.out.println("		Precio:(" + (x+1) + ")" + "Trabajo: ");
+					
+					
+				}
+
+				
+
+				// añadir el cliente y sus trabajos a la lista clienteT
+				clientesT.add(cl);
+				clientesT.add(trabajos);
+				// vaciar la lista trabajos para guardas los trabajos del próximo cliente
+				trabajos.clear();
+
+			}
 		}
 
+		return clientesT;
 	}
 
 	// Getters y Setters
@@ -1323,5 +1350,4 @@ public class Operaciones {
 	public void setUsuarios(ArrayList<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-
 }
