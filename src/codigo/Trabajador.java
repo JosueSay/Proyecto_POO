@@ -1,6 +1,9 @@
 // la siguiente linea de codigo contiene las clases del programa, si hay error, descomentar la linea de codigo
 package codigo;
 
+// se importa la libreria ArrayList
+import java.util.ArrayList;
+
 /**
  * Clase Trabajador Clase hija de la clase Usuario Tiene como objetivo
  * representar los atributos y métodos específicos de un usuario de tipo
@@ -15,6 +18,16 @@ package codigo;
 public class Trabajador extends Usuario {
 
 	// Atributos
+	/**
+	 * trabajo que almacena el trabajo que realiza el trabajador
+	 */
+	private Trabajo trabajo;
+
+	/**
+	 * lista de trabajos que contiene los trabajos realizados
+	 */
+	private ArrayList<Trabajo> trabajoR;
+
 	/**
 	 * variable que identifica si el trabajador puede obtener un trabajo, solo optar
 	 * por un trabajo a la vez true: puede pedir y tomar un trabajo, false: no puede
@@ -41,6 +54,22 @@ public class Trabajador extends Usuario {
 			String password) {
 		super(id, nombre, apellido, direccion, username, password);
 		this.profesion = profesion;
+	}
+
+	// Getters y Setters
+	/**
+	 * @return trabajo, variable que almacena el trabajo que está realizando el
+	 *         trabajador
+	 */
+	public Trabajo getTrabajo() {
+		return trabajo;
+	}
+
+	/**
+	 * @param trabajo, variable que modifica el atributo trabajo
+	 */
+	public void setTrabajo(Trabajo trabajo) {
+		this.trabajo = trabajo;
 	}
 
 	/**
@@ -70,5 +99,19 @@ public class Trabajador extends Usuario {
 	 */
 	public void setProfesion(String profesion) {
 		this.profesion = profesion;
+	}
+
+	/**
+	 * @return trabajoR, variable que almacena los trabajos realizados
+	 */
+	public ArrayList<Trabajo> getTrabajoR() {
+		return trabajoR;
+	}
+
+	/**
+	 * @param trabajoR, variable que modifica el atributo trabajoR
+	 */
+	public void setTrabajoR(ArrayList<Trabajo> trabajoR) {
+		this.trabajoR = trabajoR;
 	}
 }

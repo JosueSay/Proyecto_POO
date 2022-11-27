@@ -21,13 +21,12 @@ public class Principal {
 		 * Ejemplo
 		 */
 		ArrayList<Usuario> pruebaU = new ArrayList<Usuario>();
-		
 
 		// listas de trabajos
 		ArrayList<Trabajo> publicados = new ArrayList<Trabajo>();
 		ArrayList<Trabajo> proceso = new ArrayList<Trabajo>();
 		ArrayList<Trabajo> pagar = new ArrayList<Trabajo>();
-		//ArrayList<Trabajo> completo = new ArrayList<Trabajo>();
+		// ArrayList<Trabajo> completo = new ArrayList<Trabajo>();
 		ArrayList<Trabajo> todos = new ArrayList<Trabajo>();
 
 		Trabajo t1 = new Trabajo(1, "Se busca plomero", "25/11/2022", "27/11/2022", 45);
@@ -74,20 +73,17 @@ public class Principal {
 		todos.add(t5);
 		todos.add(t6);
 
-		
-		
 		Usuario u1 = new Cliente(1, "josue", "say", "03-ap-p", "jos1", "admin");
-		Cliente cliente = (Cliente)(u1);
+		Cliente cliente = (Cliente) (u1);
 		cliente.setTrabajosPublicados(publicados);
 		cliente.setTrabajosPagar(pagar);
 		cliente.setTodosTrabajos(todos);
 		cliente.setTrabajosEnCola(proceso);
-		
+
 		pruebaU.add(cliente);
+		pruebaU.add(tr2);
 		op.setUsuarios(pruebaU);
-		
-		
-		
+
 		// mostrar menu inicial del programa
 		op.menuInicial();
 

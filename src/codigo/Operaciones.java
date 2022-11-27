@@ -282,6 +282,9 @@ public class Operaciones {
 
 			Usuario cl = new Cliente(usuarios.size() + 1, nombre, apellido, direccion, user, pass);
 			usuarios.add(cl);
+			Cliente cliente = (Cliente) (cl);
+
+			menuCliente(cliente);
 
 		} else {
 			// profesion del trabajador
@@ -292,6 +295,9 @@ public class Operaciones {
 
 			Usuario tr = new Trabajador(usuarios.size() + 1, nombre, apellido, direccion, profesion, user, pass);
 			usuarios.add(tr);
+
+			Trabajador trabajador = (Trabajador) (tr);
+			menuTrabajador(trabajador);
 
 		}
 	}
@@ -1170,10 +1176,163 @@ public class Operaciones {
 	 */
 	public void menuTrabajador(Trabajador trabajador) {
 
-		// un usuario debe tener trabajos colocar limites 1 solo trabajo o más
-		// debe de ver los trabajos publicados por clientes
-		// debe de poder proporcionar una oferta en el precioNegocio de Trabajo
-		// debe de poder calificar cliente
+		// variable para el ingreso de la opcion del usuario
+		int respuesta_int;
+		// variable para continuar el ciclo para mostrar menu
+		boolean continuarC;
+
+		System.out.println("======================================");
+		System.out.println("	||Bienvenido " + trabajador.getNombre() + "||");
+		System.out.println("======================================");
+
+		// mostrar menu
+		do {
+			// evaluando errores
+			try {
+
+				System.out.println("\n1. Ver lista de trabajos\n2. Obtener trabajo"
+						+ "\n3. Cobrar trabajo\n4. Ver Trabajos realizados\n5. Cerrar cuenta\n6. Salir");
+				System.out.print("\nIngresa la opcion que desee: ");
+				respuesta_int = r.nextInt();
+
+				// se realiza la opcion que se ingreso
+				switch (respuesta_int) {
+
+				// primera opcion: ver lista de trabajos
+				case 1:
+					continuarC = true;
+					// metodo
+					break;
+
+				// segunda opcion: Obtener trabajo
+				case 2:
+					continuarC = true;
+					// metodo
+					break;
+
+				// tercera opcion: cobrar trabajo
+				case 3:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// cuarta opcion: ver trabajos realizados
+				case 4:
+					continuarC = true;
+					// metodo
+					System.out.println("");
+					break;
+
+				// quinta opcion: cerrar cuenta
+				case 5:
+					continuarC = false;
+					cerrarCuenta(trabajador);
+					System.out.println("");
+					break;
+
+				// sexta opcion: salir del programa
+				case 6:
+					continuarC = false;
+					System.out.println("======================================");
+					System.out.println("       ||Saliste del programa||       ");
+					System.out.println("======================================");
+					System.out.println("");
+					break;
+
+				// no se ingreso los enteros permitidos para las opciones
+				default:
+					System.out.println("La respuesta " + "\"" + respuesta_int + "\""
+							+ " no esta dentro de las opciones permitidas. Intenta nuevamente");
+					continuarC = true;
+				}
+
+				// el usuario ingreso un dato diferente de int
+			} catch (InputMismatchException e) {
+				System.out.println(
+						"La opcion ingresada no es valida, debe ingresar un numero entero. Intenta nuevamente");
+				r.next();
+				continuarC = true;
+			}
+
+		} while (continuarC);
+	}
+
+	/**
+	 * metodo para ver los trabajos que han publicado los clientes
+	 */
+	public ArrayList<Object> verTrabajos() {
+
+		// respuestas del trabajador
+//		int nCliente;
+//		int nTrabajo;
+
+		// lista de clientes y trabajos libres
+		ArrayList<Object> clientesT = new ArrayList<Object>();
+		// lista de los clientes con trabajos
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		// lista de trabajos libres
+		ArrayList<Trabajo> trabajos = new ArrayList<Trabajo>();
+
+		// obtener todos los clientes
+		for (int c = 0; c < usuarios.size(); c++) {
+
+			if (usuarios.get(c) instanceof Cliente) {
+
+				clientes.add((Cliente) (usuarios.get(c)));
+			}
+
+		}
+		System.out.println("Los clientes con trabajos disponibles son: \n");
+
+		// ver los trabajos
+		for (int c = 0; c < clientes.size(); c++) {
+
+			// cliente que se utiliza
+			Cliente cl = clientes.get(c);
+
+			// obtener todos los trabajos que tienen un estado "libre"
+			for (int t = 0; t < cl.getTrabajosPublicados().size(); t++) {
+
+				if ("libre".equals(cl.getTrabajosPublicados().get(t).getEstado())) {
+
+					trabajos.add(cl.getTrabajosPublicados().get(t));
+				}
+			}
+
+			// si se encontraron trabajos mostrarlos y añadirlo a la lista clienteT en la
+			// que se almacena 1 cliente y luego sus trabajos publicados con estado libre
+			if (trabajos.size() != 0) {
+
+				System.out.println("(" + (c + 1) + ")" + "Cliente: " + cl.getNombre() + " " + cl.getApellido());
+
+				// mostrar los trabajos
+
+				for (int x = 0; x < trabajos.size(); x++) {
+					
+					// trabajo que se utiliza
+					Trabajo tr = trabajos.get(x);
+					
+
+					System.out.println("	(" + (x+1) + ")" + "Trabajo: ");
+					System.out.println("		Descripcion:(" + (x+1) + ")" + "Trabajo: ");
+					System.out.println("		Precio:(" + (x+1) + ")" + "Trabajo: ");
+					
+					
+				}
+
+				
+
+				// añadir el cliente y sus trabajos a la lista clienteT
+				clientesT.add(cl);
+				clientesT.add(trabajos);
+				// vaciar la lista trabajos para guardas los trabajos del próximo cliente
+				trabajos.clear();
+
+			}
+		}
+
+		return clientesT;
 	}
 
 	// Getters y Setters
